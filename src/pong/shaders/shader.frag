@@ -149,18 +149,18 @@ bool is9(vec2 position, vec2 pos)
     isInRect(position, vec2(pos.x + 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0));
 }
 
-bool isNumber(int number, vec2 position, vec2 numberPosition)
+bool isNumber(float number, vec2 position, vec2 numberPosition)
 {   // GLSL is a beautiful language
-    if (number == 0) { return is0(position, numberPosition); }
-    if (number == 1) { return is1(position, numberPosition); }
-    if (number == 2) { return is2(position, numberPosition); }
-    if (number == 3) { return is3(position, numberPosition); }
-    if (number == 4) { return is4(position, numberPosition); }
-    if (number == 5) { return is5(position, numberPosition); }
-    if (number == 6) { return is6(position, numberPosition); }
-    if (number == 7) { return is7(position, numberPosition); }
-    if (number == 8) { return is8(position, numberPosition); }
-    if (number == 9) { return is9(position, numberPosition); }
+    if (number == 0.0) { return is0(position, numberPosition); }
+    if (number == 1.0) { return is1(position, numberPosition); }
+    if (number == 2.0) { return is2(position, numberPosition); }
+    if (number == 3.0) { return is3(position, numberPosition); }
+    if (number == 4.0) { return is4(position, numberPosition); }
+    if (number == 5.0) { return is5(position, numberPosition); }
+    if (number == 6.0) { return is6(position, numberPosition); }
+    if (number == 7.0) { return is7(position, numberPosition); }
+    if (number == 8.0) { return is8(position, numberPosition); }
+    if (number == 9.0) { return is9(position, numberPosition); }
     return false;
 }
 
@@ -171,7 +171,12 @@ vec4 colorAt(vec2 position)
     bool isBall = isInRect(position, ballPosition, vec2(ballRadius * 2.0, ballRadius * 2.0));
     bool isLine = abs(position.x) < 0.001;
 
-    if (isLeftPaddle || isRightPaddle || isBall || isLine || isNumber(0, position, vec2(0.1, 0.55)))
+    if (isLeftPaddle ||
+    isRightPaddle ||
+    isBall ||
+    isLine ||
+    isNumber(score.x, position, vec2(-0.1, 0.55)) ||
+    isNumber(score.y, position, vec2(0.1, 0.55)))
     {
         return vec4(1, 1, 1, 1);
     }

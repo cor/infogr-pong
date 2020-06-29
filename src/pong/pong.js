@@ -103,6 +103,7 @@ export default class Pong {
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
     this.renderer.setBallPosition(this.state.ball.x, this.state.ball.y)
+    this.renderer.setScore(this.state.P1.score, this.state.P2.score)
     this.renderer.draw()
   }
 

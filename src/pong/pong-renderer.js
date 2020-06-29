@@ -124,4 +124,8 @@ export default class PongRenderer {
   setBallPosition (x, y) {
     this.shader.setUniform2fv('ballPosition', new Float32Array([x, y]))
   }
+
+  setScore (x, y) {
+    this.shader.setUniform2fv('score', new Float32Array([x, y]))
+  }
 }
