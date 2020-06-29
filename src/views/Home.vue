@@ -25,8 +25,22 @@ export default {
     }
 
     this.pong = new Pong(gl)
+    this.pong.draw()
 
-    this.pong.drawScene(null)
+    const render = (now) => {
+      now *= 0.001 // convert to seconds
+      // if (this.startTime === null) {
+      //   this.startTime = now
+      // }
+
+      // const time = 0.0001 + now - this.startTime
+      // this.raytracer.drawScene(movie.currentScene(time))
+      // this.frameId = requestAnimationFrame(render)
+      this.pong.setBallPosition(now, 0)
+      this.pong.draw()
+      requestAnimationFrame(render)
+    }
+    requestAnimationFrame(render)
   }
 }
 </script>

@@ -14,6 +14,9 @@ export default class Pong {
     this.gl = gl
     this.shader = new Shader(gl, vsSource, fsSource)
     this.buffers = this.initBuffers()
+
+    this.shader.use()
+    this.setDefaultPositions()
   }
 
   recompileShader (shaderSourceVars) {
@@ -52,7 +55,7 @@ export default class Pong {
     }
   }
 
-  drawScene (scene) {
+  draw () {
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0) // Clear to black, fully opaque
     this.gl.clear(this.gl.COLOR_BUFFER_BIT)
     this.gl.clearDepth(1.0) // Clear everything
@@ -94,8 +97,6 @@ export default class Pong {
     // Tell WebGL to use our program when drawing
     this.shader.use()
 
-    this.setSceneUniforms()
-
     // Set the shader uniforms
     this.shader.setUniformMatrix4fv('uProjectionMatrix', projectionMatrix)
     this.shader.setUniformMatrix4fv('uModelViewMatrix', modelViewMatrix)
@@ -106,9 +107,21 @@ export default class Pong {
     }
   }
 
-  setSceneUniforms () {
-    this.shader.setUniform2fv('paddle0Pos', new Float32Array([-0.9, 0]))
-    this.shader.setUniform2fv('paddle1Pos', new Float32Array([0.9, 0]))
-    this.shader.setUniform2fv('ballPos', new Float32Array([0, 0]))
+  setDefaultPositions () {
+    this.setLeftPaddlePosition(-0.9, 0)
+    this.setRightPaddlePosition(0.9, 0)
+    this.setBallPosition(0, 0)
+  }
+
+  setLeftPaddlePosition (x, y) {
+    this.shader.setUniform2fv('leftPaddlePosition', new Float32Array([x, y]))
+  }
+
+  setRightPaddlePosition (x, y) {
+    this.shader.setUniform2fv('rightPaddlePosition', new Float32Array([x, y]))
+  }
+
+  setBallPosition (x, y) {
+    this.shader.setUniform2fv('ballPosition', new Float32Array([x, y]))
   }
 }
