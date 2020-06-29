@@ -60,11 +60,26 @@ bool is1(vec2 position, vec2 numberPosition)
 // x x
 // xxx
 
+bool is6(vec2 position, vec2 pos)
+{
+    return isInRect(position, vec2(pos.x, pos.y + 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x - 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0)) ||
+    isInRect(position, vec2(pos.x, pos.y), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x, pos.y - 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x + 1.0 * pixelSize, pos.y - 1.0 * pixelSize), vec2(pixelSize, pixelSize * 3.0));
+}
+
 // xxx
 //   x
 //   x
 //   x
 //   x
+
+bool is7(vec2 position, vec2 pos)
+{
+    return isInRect(position, vec2(pos.x, pos.y + 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+        isInRect(position, vec2(pos.x + 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0));
+}
 
 // xxx
 // x x
@@ -72,15 +87,29 @@ bool is1(vec2 position, vec2 numberPosition)
 // x x
 // xxx
 
+bool is8(vec2 position, vec2 pos)
+{
+    return isInRect(position, vec2(pos.x, pos.y + 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x - 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0)) ||
+    isInRect(position, vec2(pos.x, pos.y), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x, pos.y - 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x + 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0));
+}
+
 // xxx
 // x x
 // xxx
 //   x
 // xxx
 
-
-
-
+bool is9(vec2 position, vec2 pos)
+{
+    return isInRect(position, vec2(pos.x, pos.y + 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x - 1.0 * pixelSize, pos.y + 1.0 * pixelSize), vec2(pixelSize, pixelSize * 3.0)) ||
+    isInRect(position, vec2(pos.x, pos.y), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x, pos.y - 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
+    isInRect(position, vec2(pos.x + 1.0 * pixelSize, pos.y), vec2(pixelSize, pixelSize * 4.0));
+}
 
 vec4 colorAt(vec2 position)
 {
@@ -89,7 +118,7 @@ vec4 colorAt(vec2 position)
     bool isBall = isInRect(position, ballPosition, vec2(ballRadius * 2.0, ballRadius * 2.0));
     bool isLine = abs(position.x) < 0.001;
 
-    if (isLeftPaddle || isRightPaddle || isBall || isLine || is1(position, vec2(0.1, 0.55)))
+    if (isLeftPaddle || isRightPaddle || isBall || isLine || is9(position, vec2(0.1, 0.55)))
     {
         return vec4(1, 1, 1, 1);
     }
