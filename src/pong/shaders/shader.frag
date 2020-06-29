@@ -260,5 +260,6 @@ vec4 colorAt(vec2 position)
 }
 
 void main() {
+    // render depending on state here
     gl_FragColor = colorAt(screenPosition);
 }
