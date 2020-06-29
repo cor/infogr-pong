@@ -26,7 +26,7 @@ export default {
     }
 
     this.pongRenderer = new PongRenderer(gl)
-    this.pong = new Pong(this.pongRenderer)
+    this.pong = new Pong(this.pongRenderer, canvas)
 
     this.pong.addEventListeners()
     const render = (now) => {

@@ -2,19 +2,44 @@ import Player from './player'
 import Movement from './movement'
 import Ball from './ball'
 
+const GameStage = {
+  Welcome: 0.0,
+  Playing: 1.0,
+  P1Win: 2.0,
+  P2Win: 3.0
+}
+
 export default class Pong {
+  stage
+  canvas
+  center
   renderer
   state
   maxY
 
-  constructor (renderer) {
+  constructor (renderer, canvas) {
+    this.stage = GameStage.Welcome
+    this.canvas = canvas
     this.renderer = renderer
     this.maxY = 0.65
     this.state = new State()
+
+    this.center = {
+      x: canvas.width / 2,
+      y: canvas.height / 2
+    }
   }
 
   tick () {
-    this.state = this.transition(this.state)
+    if (this.stage === GameStage.Playing) {
+      if (this.state.gameOver()) {
+        this.stage = this.state.stage()
+      }
+      this.state = this.transition(this.state)
+      this.syncState()
+    } else {
+      this.renderer.setState(this.stage)
+    }
     this.draw()
   }
 
@@ -99,15 +124,27 @@ export default class Pong {
     }
   }
 
-  draw () {
+  syncState () {
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
     this.renderer.setBallPosition(this.state.ball.x, this.state.ball.y)
     this.renderer.setScore(this.state.P1.score, this.state.P2.score)
+  }
+
+  draw () {
     this.renderer.draw()
   }
 
   addEventListeners () {
+    this.canvas.addEventListener('mousedown', (e) => {
+      const click = getCursorPosition(this.canvas, e)
+      if (
+        (Math.abs(this.center.x - click.x) < 50 || Math.abs(this.center.y - click.y) < 50) && this.stage !== GameStage.Playing) {
+        this.state = new State()
+        this.stage = GameStage.Playing
+      }
+    })
+
     document.addEventListener('keydown', (k) => {
       switch (k.code) {
         case 'ArrowUp':
@@ -152,6 +189,14 @@ export default class Pong {
   }
 }
 
+// https://stackoverflow.com/questions/55677/how-do-i-get-the-coordinates-of-a-mouse-click-on-a-canvas-element
+function getCursorPosition (canvas, event) {
+  const rect = canvas.getBoundingClientRect()
+  const x = event.clientX - rect.left
+  const y = event.clientY - rect.top
+  return { x: x, y: y }
+}
+
 class State {
   P1
   P2
@@ -163,5 +208,18 @@ class State {
     this.P1 = new Player(-0.9)
     this.P2 = new Player(0.9)
     this.terminating = false
+  }
+
+  gameOver () {
+    return this.P1.score > 9 || this.P2.score > 9
+  }
+
+  stage () {
+    if (this.P1.score > 9) {
+      return GameStage.P1Win
+    } else if (this.P2.score > 9) {
+      return GameStage.P2Win
+    }
+    return GameStage.Playing
   }
 }

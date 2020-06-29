@@ -3,10 +3,10 @@ precision highp float;
 varying mediump vec2 screenPosition;
 
 uniform vec2 score;
-
 uniform vec2 ballPosition;
 uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
+uniform float state;
 
 float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.04, 0.24);

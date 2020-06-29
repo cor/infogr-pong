@@ -107,6 +107,10 @@ export default class PongRenderer {
     }
   }
 
+  setState (state) {
+    this.shader.setUniform1f('state', state)
+  }
+
   setDefaultPositions () {
     this.setLeftPaddlePosition(-0.9, 0)
     this.setRightPaddlePosition(0.9, 0)
