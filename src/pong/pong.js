@@ -40,18 +40,20 @@ export default class Pong {
     }
 
     const maxBounceAngle = 5 * Math.PI / 12
-    const ballSpeed = 0.015
 
     // Paddle collision
     if (state.ball.left() < state.P1.right()) {
       if ((state.ball.bottom() < state.P1.top() && state.ball.bottom > state.P1.bottom()) ||
         (state.ball.top() < state.P1.top() && state.ball.top() > state.P1.bottom())) {
-
         const distanceToNormal = state.P1.y - state.ball.y
         const normalizedDistanceToNormal = distanceToNormal / (state.P1.height / 2)
         const bounceAngle = normalizedDistanceToNormal * maxBounceAngle
-        state.ball.direction.x = ballSpeed * Math.cos(bounceAngle)
-        state.ball.direction.y = ballSpeed * Math.sin(bounceAngle)
+
+        state.ball.speed *= state.ball.acceleration
+        console.log(state.ball.speed)
+
+        state.ball.direction.x = state.ball.speed * Math.cos(bounceAngle)
+        state.ball.direction.y = state.ball.speed * Math.sin(bounceAngle)
       } else {
         state.terminating = true
       }
@@ -60,12 +62,14 @@ export default class Pong {
     if (state.ball.right() > state.P2.left()) {
       if ((state.ball.bottom() < state.P2.top() && state.ball.bottom > state.P2.bottom()) ||
         (state.ball.top() < state.P2.top() && state.ball.top() > state.P2.bottom())) {
-
         const distanceToNormal = state.P2.y - state.ball.y
         const normalizedDistanceToNormal = distanceToNormal / (state.P2.height / 2)
         const bounceAngle = normalizedDistanceToNormal * maxBounceAngle
-        state.ball.direction.x = ballSpeed * -Math.cos(bounceAngle)
-        state.ball.direction.y = ballSpeed * -Math.sin(bounceAngle)
+
+        state.ball.speed *= state.ball.acceleration
+
+        state.ball.direction.x = state.ball.speed * -Math.cos(bounceAngle)
+        state.ball.direction.y = state.ball.speed * -Math.sin(bounceAngle)
       } else {
         state.terminating = true
       }
