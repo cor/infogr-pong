@@ -2,12 +2,13 @@ export default class Shader {
   gl
   program
 
-  constructor (gl, vsSource, fsSource, sourceVars) {
+  // constructor (gl, vsSource, fsSource, sourceVars) {
+  constructor (gl, vsSource, fsSource) {
     this.gl = gl
 
     // preprocess sources
-    vsSource = this.preprocessSource(vsSource, sourceVars)
-    fsSource = this.preprocessSource(fsSource, sourceVars)
+    // vsSource = this.preprocessSource(vsSource, sourceVars)
+    // fsSource = this.preprocessSource(fsSource, sourceVars)
 
     this.program = this.initShaderProgram(gl, vsSource, fsSource)
   }
