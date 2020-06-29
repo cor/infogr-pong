@@ -35,18 +35,19 @@ export default class Pong {
       return newState
     }
 
-    // const ballLeft = state.ball.x - state.ball.radius/2
+    if (state.ball.left() < state.P1.right()) {
+      if ((state.ball.bottom() < state.P1.top() && state.ball.bottom > state.P1.bottom()) ||
+        (state.ball.top() < state.P1.top() && state.ball.top() > state.P1.bottom())) {
+        state.ball.direction.x *= -1
+      }
+    }
 
-    // // if the leftside of the ball is within the lower and upper x bounds of the paddle, a hit is detected.
-    // if ( ballLeft < state.P1.x + state.P1.width/2 && ballLeft > state.P1.x - state.P1.width/2) {
-    //
-    // }
-    //
-    // const ballRight = state.ball.x + state.ball.radius/2
-    //
-    // if ( ballRight > state.P2.x - state.P2.width/2 && ballRight < state.P2.x + state.P2.width/2) {
-    //
-    // }
+    if (state.ball.right() > state.P2.left()) {
+      if ((state.ball.bottom() < state.P2.top() && state.ball.bottom > state.P2.bottom()) ||
+        (state.ball.top() < state.P2.top() && state.ball.top() > state.P2.bottom())) {
+        state.ball.direction.x *= -1
+      }
+    }
 
     // if ball hits paddle, compute new ball direction.
     return this.state

@@ -19,7 +19,8 @@ vec4 colorAt(vec2 position)
 
     bool isLeftPaddle = leftPaddleDelta.x < paddleSize.x && leftPaddleDelta.y < paddleSize.y;
     bool isRightPaddle = rightPaddleDelta.x < paddleSize.x && rightPaddleDelta.y < paddleSize.y;
-    bool isBall = length(abs(ballPosition - position)) < ballRadius;
+//    bool isBall = length(abs(ballPosition - position)) < ballRadius;
+    bool isBall = abs(ballPosition.x - position.x) < ballRadius && abs(ballPosition.y - position.y) < ballRadius;
     bool isLine = abs(position.x) < 0.001;
 
     if (isLeftPaddle || isRightPaddle || isBall || isLine)

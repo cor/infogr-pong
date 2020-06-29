@@ -18,4 +18,20 @@ export default class Player {
     this.direction = Movement.None
     this.score = 0
   }
+
+  left () {
+    return this.x - this.width / 2
+  }
+
+  right () {
+    return this.x + this.width / 2
+  }
+
+  top () {
+    return this.y + this.height / 2
+  }
+
+  bottom () {
+    return this.y - this.height / 2
+  }
 }

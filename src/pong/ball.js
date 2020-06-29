@@ -17,4 +17,20 @@ export default class Ball {
     this.y = 0
     this.direction = this.startDirections[Math.floor(Math.random() * this.startDirections.length)]
   }
+
+  left () {
+    return this.x - this.radius
+  }
+
+  right () {
+    return this.x + this.radius
+  }
+
+  top () {
+    return this.y + this.radius
+  }
+
+  bottom () {
+    return this.y - this.radius
+  }
 }
