@@ -64,10 +64,10 @@ export default class Pong {
   updatePlayerState (P) {
     switch (P.direction) {
       case Movement.Up:
-        P.y = Math.min(P.y + 0.01, this.maxY - P.height / 2)
+        P.y = Math.min(P.y + P.speed, this.maxY - P.height / 2)
         break
       case Movement.Down:
-        P.y = Math.max(P.y - 0.01, -this.maxY + P.height / 2)
+        P.y = Math.max(P.y - P.speed, -this.maxY + P.height / 2)
         break
     }
   }
