@@ -21,6 +21,7 @@ export default class Pong {
   transition (state) {
     this.updatePlayerState(state.P1)
     this.updatePlayerState(state.P2)
+    this.updateBallState(state.ball)
 
     if (state.ball.x <= -1) {
       const newState = new State()
@@ -32,10 +33,6 @@ export default class Pong {
       newState.P1.score = state.P1.score + 1
       newState.P2.score = state.P2.score
       return newState
-    }
-
-    if (Math.abs(state.ball.y) > this.maxY) {
-      state.ball.direction.y *= -1
     }
 
     // const ballLeft = state.ball.x - state.ball.radius/2
@@ -55,6 +52,15 @@ export default class Pong {
     return this.state
   }
 
+  updateBallState (ball) {
+    ball.x += ball.direction.x
+    ball.y += ball.direction.y
+
+    if (Math.abs(ball.y) > this.maxY) {
+      ball.direction.y *= -1
+    }
+  }
+
   updatePlayerState (P) {
     switch (P.direction) {
       case Movement.Up:
@@ -69,7 +75,7 @@ export default class Pong {
   draw () {
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
-    this.renderer.setBallPosition()
+    this.renderer.setBallPosition(this.state.ball.x, this.state.ball.y)
     this.renderer.draw()
   }
 

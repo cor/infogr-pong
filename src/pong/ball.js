@@ -9,8 +9,8 @@ export default class Ball {
     this.x = 0
     this.y = 0
     this.direction = {
-      x: -1,
-      y: 0
+      x: -0.01,
+      y: 0.05
     }
   }
 }
