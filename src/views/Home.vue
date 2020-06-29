@@ -28,18 +28,8 @@ export default {
     this.pongRenderer = new PongRenderer(gl)
     this.pong = new Pong(this.pongRenderer)
 
-    this.pong.tick()
-
+    this.pong.addEventListeners()
     const render = (now) => {
-      now *= 0.001 // convert to seconds
-      // if (this.startTime === null) {
-      //   this.startTime = now
-      // }
-
-      // const time = 0.0001 + now - this.startTime
-      // this.raytracer.drawScene(movie.currentScene(time))
-      // this.frameId = requestAnimationFrame(render)
-      this.pongRenderer.setBallPosition(now, 0)
       this.pong.tick()
       requestAnimationFrame(render)
     }
