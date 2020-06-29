@@ -1,3 +1,4 @@
 import Pong from './pong'
+import PongRenderer from './pong-renderer'
 
-export default Pong
+export { Pong, PongRenderer }
