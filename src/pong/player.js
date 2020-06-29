@@ -11,7 +11,7 @@ export default class Player {
 
   constructor (x) {
     this.width = 0.04
-    this.height = 0.24
+    this.height = 0.3
     this.x = x
     this.y = 0
     this.speed = 0.02

@@ -9,12 +9,12 @@ export default class Pong {
 
   constructor (renderer) {
     this.renderer = renderer
-    this.maxY = 0.605
+    this.maxY = 0.65
     this.state = new State()
   }
 
   tick () {
-    this.state = this.transition(this.state) // mudblood
+    this.state = this.transition(this.state)
     this.draw()
   }
 
@@ -35,10 +35,16 @@ export default class Pong {
       return newState
     }
 
+    if (state.terminating) {
+      return state
+    }
+
     if (state.ball.left() < state.P1.right()) {
       if ((state.ball.bottom() < state.P1.top() && state.ball.bottom > state.P1.bottom()) ||
         (state.ball.top() < state.P1.top() && state.ball.top() > state.P1.bottom())) {
         state.ball.direction.x *= -1
+      } else {
+        state.terminating = true
       }
     }
 
@@ -46,6 +52,8 @@ export default class Pong {
       if ((state.ball.bottom() < state.P2.top() && state.ball.bottom > state.P2.bottom()) ||
         (state.ball.top() < state.P2.top() && state.ball.top() > state.P2.bottom())) {
         state.ball.direction.x *= -1
+      } else {
+        state.terminating = true
       }
     }
 
@@ -129,10 +137,12 @@ class State {
   P1
   P2
   ball
+  terminating
 
   constructor () {
     this.ball = new Ball()
     this.P1 = new Player(-0.9)
     this.P2 = new Player(0.9)
+    this.terminating = false
   }
 }
