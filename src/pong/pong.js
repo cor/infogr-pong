@@ -94,9 +94,7 @@ export default class Pong {
     // Tell WebGL to use our program when drawing
     this.shader.use()
 
-    // this.setLightUniforms(scene)
-    // this.setCircleUniforms(scene)
-    // this.setRectUniforms(scene)
+    this.setSceneUniforms()
 
     // Set the shader uniforms
     this.shader.setUniformMatrix4fv('uProjectionMatrix', projectionMatrix)
@@ -108,26 +106,9 @@ export default class Pong {
     }
   }
 
-  setLightUniforms (scene) {
-    for (const [i, light] of scene.lights.entries()) {
-      this.shader.setUniform2fv(`lights[${i}].position`, new Float32Array(light.position))
-      this.shader.setUniform3fv(`lights[${i}].color`, new Float32Array(light.color))
-    }
-  }
-
-  setCircleUniforms (scene) {
-    for (const [i, circle] of scene.circles.entries()) {
-      this.shader.setUniform2fv(`circles[${i}].position`, new Float32Array(circle.position))
-      this.shader.setUniform1f(`circles[${i}].radius`, circle.radius)
-    }
-  }
-
-  setRectUniforms (scene) {
-    for (const [i, rect] of scene.rectangles.entries()) {
-      this.shader.setUniform2fv(`rectangles[${i}].position`, new Float32Array(rect.position))
-      this.shader.setUniform1f(`rectangles[${i}].width`, rect.width)
-      this.shader.setUniform1f(`rectangles[${i}].height`, rect.height)
-      this.shader.setUniform1f(`rectangles[${i}].angle`, rect.angle)
-    }
+  setSceneUniforms () {
+    this.shader.setUniform2fv('paddle0Pos', new Float32Array([-0.9, 0]))
+    this.shader.setUniform2fv('paddle1Pos', new Float32Array([0.9, 0]))
+    this.shader.setUniform2fv('ballPos', new Float32Array([0, 0]))
   }
 }

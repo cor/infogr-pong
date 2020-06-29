@@ -4,13 +4,13 @@ precision highp float;
 
 varying mediump vec2 screenPosition;
 
-vec2 ballPos = vec2(0.0, 0.0);
-float ballRadius = 0.02;
+uniform vec2 ballPos;
+uniform vec2 paddle0Pos;
+uniform vec2 paddle1Pos;
 
+float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.02, 0.12);
 
-vec2 paddle0Pos = vec2(-0.9, 0);
-vec2 paddle1Pos = vec2(0.9, 0);
 
 vec4 colorAt(vec2 position)
 {
