@@ -1,5 +1,6 @@
 import Player from './player'
 import Movement from './movement'
+import Ball from './ball'
 
 export default class Pong {
   renderer
@@ -9,7 +10,6 @@ export default class Pong {
   constructor (renderer) {
     this.renderer = renderer
     this.maxY = 0.605
-    // this.maxY = this.renderer.ybound()
     this.state = new State()
   }
 
@@ -124,15 +124,7 @@ class State {
   ball
 
   constructor () {
-    this.ball = {
-      radius: 0.01,
-      x: 0,
-      y: 0,
-      direction: {
-        x: -1,
-        y: 0
-      }
-    }
+    this.ball = new Ball()
     this.P1 = new Player(-0.9)
     this.P2 = new Player(0.9)
   }
