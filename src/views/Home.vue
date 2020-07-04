@@ -1,12 +1,12 @@
 <template>
   <div class="home">
-    <h1>INFOGR Pong</h1>
+<!--    <h1>INFOGR Pong</h1>-->
     <canvas id="glCanvas" width="1200" height="800"></canvas>
   </div>
 </template>
 
 <script>
-import { Pong, PongRenderer } from '../pong'
+import { Pong, PongRenderer, GameStage } from '../pong'
 
 export default {
   name: 'Home',
@@ -26,7 +26,7 @@ export default {
     }
 
     this.pongRenderer = new PongRenderer(gl)
-    this.pong = new Pong(this.pongRenderer)
+    this.pong = new Pong(this.pongRenderer, canvas, GameStage.Welcome)
 
     this.pong.addEventListeners()
     const render = (now) => {

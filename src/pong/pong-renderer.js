@@ -107,6 +107,16 @@ export default class PongRenderer {
     }
   }
 
+  setOldPositions (oldPositions) {
+    for (const [i, pos] of oldPositions.entries()) {
+      this.shader.setUniform2fv(`oldPositions[${i}]`, pos)
+    }
+  }
+
+  setState (state) {
+    this.shader.setUniform1f('state', state)
+  }
+
   setDefaultPositions () {
     this.setLeftPaddlePosition(-0.9, 0)
     this.setRightPaddlePosition(0.9, 0)
@@ -123,5 +133,9 @@ export default class PongRenderer {
 
   setBallPosition (x, y) {
     this.shader.setUniform2fv('ballPosition', new Float32Array([x, y]))
+  }
+
+  setScore (x, y) {
+    this.shader.setUniform2fv('score', new Float32Array([x, y]))
   }
 }
