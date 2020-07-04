@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/infogr-pong/precache-manifest.a3b88aca22ff591ddb224c767ce40d37.js"
+  "/infogr-pong/precache-manifest.94bcd2149b8874d0d73d930b3affd641.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "infogr-pong"});
