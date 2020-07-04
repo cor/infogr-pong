@@ -11,6 +11,7 @@ uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
 uniform float gameStage;
 uniform vec2 oldPositions[30];
+uniform float time;
 
 float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.04, 0.24);
