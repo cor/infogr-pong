@@ -113,6 +113,10 @@ export default class PongRenderer {
     }
   }
 
+  setTime (time) {
+    this.shader.setUniform1f('time', time)
+  }
+
   setGameStage (gameStage) {
     this.shader.setUniform1f('gameStage', gameStage)
   }
