@@ -41,7 +41,7 @@ export class Pong {
       this.state = this.transition(this.state)
       this.syncState()
     } else {
-      this.renderer.setState(this.stage)
+      this.renderer.setGameStage(this.stage)
     }
     this.draw()
   }
@@ -127,7 +127,7 @@ export class Pong {
 
   syncState () {
     this.renderer.setOldPositions(this.state.ball.oldPositions)
-    this.renderer.setState(this.stage)
+    this.renderer.setGameStage(this.stage)
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
     this.renderer.setBallPosition(this.state.ball.x, this.state.ball.y)
