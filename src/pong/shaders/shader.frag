@@ -320,9 +320,9 @@ vec4 playing(vec2 position) // GameStage.Playing
 
 vec4 p1win(vec2 position) // GameStage.P1Win
 {
-    if (isP(position, vec2(-0.6, 0)) ||
-        is1(position, vec2(-0.5, 0)) ||
-        isExclamationMark(position, vec2(-0.4, 0)) ||
+    if (isP(position, vec2(-19.0 * pixelSize, 0)) ||
+        is1(position, vec2(-16.0 * pixelSize, 0)) ||
+        isExclamationMark(position, vec2(-14.0 * pixelSize, 0)) ||
         isP1score(position) ||
         isP2score(position) ||
         isLine(position)
@@ -335,11 +335,13 @@ vec4 p1win(vec2 position) // GameStage.P1Win
 
 vec4 p2win(vec2 position) // GameStage.P2Win
 {
-    if (isP(position, vec2(0.6, 0)) ||
-        is2(position, vec2(0.8, 0)) ||
-        isLine(position) ||
-        isNumber(score.x, position, vec2(-0.1, 0.55)) ||
-        isNumber(score.y, position, vec2(0.1, 0.55)))
+    if (isP(position, vec2(14.0 * pixelSize, 0)) ||
+        is2(position, vec2(18.0 * pixelSize, 0)) ||
+        isExclamationMark(position, vec2(21.0 * pixelSize, 0)) ||
+        isP1score(position) ||
+        isP2score(position) ||
+        isLine(position)
+    )
     {
         return vec4(1, 1, 1, 1);
     }
@@ -347,8 +349,6 @@ vec4 p2win(vec2 position) // GameStage.P2Win
 }
 
 void main() {
-//    gl_FragColor = p1win(screenPosition);
-
     if (gameStage == 0.0) { // GameStage.Welcome
         gl_FragColor = welcome(screenPosition);
     } else if (gameStage == 1.0) { // GameStage.Playing
