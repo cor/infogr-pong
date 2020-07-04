@@ -360,7 +360,9 @@ vec4 p2win(vec2 position) // GameStage.P2Win
 vec4 scanline(vec4 color, vec2 position) {
     float lineHeight = 0.02;
     float darkness = 0.9;
-    float y = mod(position.y, lineHeight);
+    float speed = 0.02;
+
+    float y = mod(position.y + (time / 60.0) * speed, lineHeight);
     if (y < lineHeight/2.0) {
         return color;
     } else {
