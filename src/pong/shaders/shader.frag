@@ -312,10 +312,12 @@ vec4 playing(vec2 position) // GameStage.Playing
         return vec4(1, 1, 1, 1);
     }
 
-    for (int i = 0; i < 30; i++) {
+    // Render tail
+    for (int i = 29; i >= 0; i--) {
         vec2 oldPos = oldPositions[i];
-        if (isInRect(position, oldPos, vec2(0.01, 0.01))) {
-            return vec4(1, 1, 1, 1);
+        float scale = float(i) / 30.0;
+        if (isInRect(position, oldPos, vec2(ballRadius * 2.0 * scale))) {
+            return vec4(scale, scale, scale, 1.0);
         }
     }
 
