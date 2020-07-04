@@ -26,8 +26,14 @@ can be considered our lead designer.
 - Sound effects
 - Screen curvature
 
-Our entire game can be viewed [online](https://cor.github.io/infogr-pong) as well! 
-Please view it in an updated version of Google Chrome or FireFox. 
+## Running the game
+Our entire game can be viewed [online](https://cor.github.io/infogr-pong)! 
+Please view it in an updated version of Google Chrome or FireFox.
+
+### Controls 
+- Click the triangular play button to start
+- W/S for Player 1 movement
+- UpArrow/DownArrow for Player 2 movement
 
 ## Sources
 
