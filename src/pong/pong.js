@@ -219,9 +219,9 @@ class State {
   }
 
   currentStage () {
-    if (this.P1.score > 9) {
+    if (this.P1.score >= 9) {
       return GameStage.P1Win
-    } else if (this.P2.score > 9) {
+    } else if (this.P2.score >= 9) {
       return GameStage.P2Win
     }
     return GameStage.Playing

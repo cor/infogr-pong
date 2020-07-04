@@ -280,12 +280,16 @@ bool isLine(vec2 position) {
     return abs(position.x) < 0.001;
 }
 
+bool isPlayButton(vec2 position) {
+    return isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0));
+}
+
 //
 // GAMESTAGE SPECIFIC RENDERING
 //
 vec4 welcome(vec2 position) { // GameStage.Welcome
     if (isPONG(position, vec2(0, 0.3)) ||
-        isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0)))
+        isPlayButton(position))
     {
         return vec4(1, 1, 1, 1);
     }
@@ -325,7 +329,8 @@ vec4 p1win(vec2 position) // GameStage.P1Win
         isExclamationMark(position, vec2(-14.0 * pixelSize, 0)) ||
         isP1score(position) ||
         isP2score(position) ||
-        isLine(position)
+        isLine(position) ||
+        isPlayButton(position)
     )
     {
         return vec4(1, 1, 1, 1);
@@ -340,7 +345,8 @@ vec4 p2win(vec2 position) // GameStage.P2Win
         isExclamationMark(position, vec2(21.0 * pixelSize, 0)) ||
         isP1score(position) ||
         isP2score(position) ||
-        isLine(position)
+        isLine(position) ||
+        isPlayButton(position)
     )
     {
         return vec4(1, 1, 1, 1);
