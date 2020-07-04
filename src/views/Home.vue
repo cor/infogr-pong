@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>INFOGR Pong</h1>
+<!--    <h1>INFOGR Pong</h1>-->
     <canvas id="glCanvas" width="1200" height="800"></canvas>
   </div>
 </template>
