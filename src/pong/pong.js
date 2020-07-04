@@ -107,7 +107,7 @@ export class Pong {
 
         state.ball.speed *= state.ball.acceleration
         state.ball.direction.x = state.ball.speed * Math.cos(bounceAngle)
-        state.ball.direction.y = state.ball.speed * Math.sin(bounceAngle)
+        state.ball.direction.y = -state.ball.speed * Math.sin(bounceAngle)
       } else {
         state.terminating = true
       }
