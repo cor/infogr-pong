@@ -270,15 +270,17 @@ bool isNumber(float number, vec2 position, vec2 numberPosition)
 }
 
 bool isP1score(vec2 position) {
-    return isNumber(score.x, position, vec2(-0.1, 0.55));
+    return isNumber(score.x, position, vec2(-4.0 * pixelSize, 18.0 * pixelSize));
 }
 
 bool isP2score(vec2 position) {
-    return isNumber(score.y, position, vec2(0.1, 0.55));
+    return isNumber(score.y, position, vec2(4.0 * pixelSize, 18.0 * pixelSize));
 }
 
 bool isLine(vec2 position) {
-    return abs(position.x) < 0.001;
+    return
+        abs(position.x) < pixelSize / 2.0 &&
+        mod(position.y - pixelSize * 1.5, pixelSize * 2.0) <= pixelSize;
 }
 
 bool isPlayButton(vec2 position) {
@@ -358,9 +360,9 @@ vec4 p2win(vec2 position) // GameStage.P2Win
 }
 
 vec4 scanline(vec4 color, vec2 position) {
-    float lineHeight = 0.02;
+    float lineHeight = 0.005;
     float darkness = 0.9;
-    float speed = 0.02;
+    float speed = 0.0002;
 
     float y = mod(position.y + (time / 60.0) * speed, lineHeight);
     if (y < lineHeight/2.0) {
