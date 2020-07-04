@@ -356,14 +356,23 @@ vec4 p2win(vec2 position) // GameStage.P2Win
     return vec4(0, 0, 0, 1.0);
 }
 
+vec4 scanline(vec4 color, vec2 position) {
+    float y = mod(position.y, 0.1);
+    if (y < 0.05) {
+        return color;
+    } else {
+        return vec4(color.x, color.y, color.z, 0.8);
+    }
+}
+
 void main() {
     if (gameStage == 0.0) { // GameStage.Welcome
-        gl_FragColor = welcome(screenPosition);
+        gl_FragColor = scanline(welcome(screenPosition), screenPosition);
     } else if (gameStage == 1.0) { // GameStage.Playing
-        gl_FragColor = playing(screenPosition);
+        gl_FragColor = scanline(playing(screenPosition), screenPosition);
     } else if (gameStage == 2.0) { // GameStage.P1Win
-        gl_FragColor = p1win(screenPosition);
+        gl_FragColor = scanline(p1win(screenPosition), screenPosition);
     } else if (gameStage == 3.0) { // GameStage.P2Win
-        gl_FragColor = p2win(screenPosition);
+        gl_FragColor = scanline(p2win(screenPosition), screenPosition);
     }
 }
