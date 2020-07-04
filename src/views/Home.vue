@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-<!--    <h1>INFOGR Pong</h1>-->
-    <canvas id="glCanvas" width="1200" height="800"></canvas>
+    <div class="canvas-wrapper">
+      <canvas id="glCanvas" width="1200" height="800"></canvas>
+    </div>
   </div>
 </template>
 
@@ -37,3 +38,16 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .home {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+  }
+</style>
