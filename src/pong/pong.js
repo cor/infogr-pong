@@ -38,6 +38,7 @@ export class Pong {
   }
 
   tick () {
+    this.time++
     if (this.stage === GameStage.Playing) {
       this.state = this.transition(this.state)
       this.syncState()
@@ -49,7 +50,6 @@ export class Pong {
 
   transition (state) {
     this.stage = this.state.currentStage()
-    this.time++
     this.updatePlayerState(state.P1)
     this.updatePlayerState(state.P2)
     this.updateBallState(state.ball)
