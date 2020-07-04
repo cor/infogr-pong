@@ -16,8 +16,10 @@ export class Pong {
   renderer
   state
   maxY
+  time
 
   constructor (renderer, canvas, stage) {
+    this.time = 0
     if (typeof stage !== 'undefined') {
       this.stage = stage
     } else {
@@ -47,6 +49,7 @@ export class Pong {
 
   transition (state) {
     this.stage = this.state.currentStage()
+    this.time++
     this.updatePlayerState(state.P1)
     this.updatePlayerState(state.P2)
     this.updateBallState(state.ball)
@@ -124,6 +127,7 @@ export class Pong {
   }
 
   syncState () {
+    this.renderer.setTime(this.time)
     this.renderer.setOldPositions(this.state.ball.oldPositions)
     this.renderer.setGameStage(this.stage)
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
