@@ -10,6 +10,7 @@ export const GameStage = {
 }
 
 export class Pong {
+  countdown
   stage
   canvas
   center
@@ -19,6 +20,7 @@ export class Pong {
   time
 
   constructor (renderer, canvas, stage) {
+    this.countdown = 60
     this.time = 0
     if (typeof stage !== 'undefined') {
       this.stage = stage
@@ -50,20 +52,30 @@ export class Pong {
   }
 
   transition (state) {
+    this.countdown--
     this.stage = this.state.currentStage()
     this.updatePlayerState(state.P1)
     this.updatePlayerState(state.P2)
+
+    if (this.countdown > 0) {
+      return state
+    }
+
     this.updateBallState(state.ball)
 
     if (state.ball.x <= -1) {
       const newState = new State()
-      newState.P1.score = state.P1.score
-      newState.P2.score = state.P2.score + 1
+      newState.P1 = state.P1
+      newState.P2 = state.P2
+      newState.P2.score++
+      this.countdown = 60
       return newState
     } else if (state.ball.x >= 1) {
       const newState = new State()
-      newState.P1.score = state.P1.score + 1
-      newState.P2.score = state.P2.score
+      newState.P1 = state.P1
+      newState.P2 = state.P2
+      newState.P1.score++
+      this.countdown = 60
       return newState
     }
 
