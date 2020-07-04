@@ -2,16 +2,23 @@ precision highp float;
 
 varying mediump vec2 screenPosition;
 
+//
+// GAME STATE
+//
 uniform vec2 score;
 uniform vec2 ballPosition;
 uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
-uniform float state;
+uniform float gameStage;
 uniform vec2 oldPositions[30];
 
 float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.04, 0.24);
 
+
+//
+// DRAWING FUNCTIONS
+//
 bool isInRect(vec2 position, vec2 center, vec2 size)
 {
     vec2 delta = abs(center - position);  // delta for paddle 0
@@ -203,8 +210,20 @@ bool isG(vec2 position, vec2 pos)
     isInRect(position, vec2(pos.x, pos.y + 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
     isInRect(position, vec2(pos.x, pos.y - 2.0 * pixelSize), vec2(pixelSize * 3.0, pixelSize)) ||
     isInRect(position, vec2(pos.x - pixelSize, pos.y), vec2(pixelSize, pixelSize * 3.0)) ||
-    isInRect(position, vec2(pos.x + pixelSize, pos.y - pixelSize), vec2(pixelSize, pixelSize)) ||
+    isInRect(position, vec2(pos.x + pixelSize, pos.y - pixelSize), vec2(pixelSize)) ||
     isInRect(position, vec2(pos.x + 0.75 * pixelSize, pos.y), vec2(1.5 * pixelSize, pixelSize));
+}
+
+// x
+// x
+// x
+//
+// x
+bool isExclamationMark(vec2 position, vec2 pos)
+{
+    return
+    isInRect(position, vec2(pos.x, pos.y + pixelSize), vec2(pixelSize, pixelSize * 3.0)) ||
+    isInRect(position, vec2(pos.x, pos.y - 2.0 * pixelSize), vec2(pixelSize));
 }
 
 
@@ -249,19 +268,46 @@ bool isNumber(float number, vec2 position, vec2 numberPosition)
     return false;
 }
 
-vec4 colorAt(vec2 position)
+bool isP1score(vec2 position) {
+    return isNumber(score.x, position, vec2(-0.1, 0.55));
+}
+
+bool isP2score(vec2 position) {
+    return isNumber(score.y, position, vec2(0.1, 0.55));
+}
+
+bool isLine(vec2 position) {
+    return abs(position.x) < 0.001;
+}
+
+bool isPlayButton(vec2 position) {
+    return isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0));
+}
+
+//
+// GAMESTAGE SPECIFIC RENDERING
+//
+vec4 welcome(vec2 position) { // GameStage.Welcome
+    if (isPONG(position, vec2(0, 0.3)) ||
+        isPlayButton(position))
+    {
+        return vec4(1, 1, 1, 1);
+    }
+    return vec4(0, 0, 0, 1.0);
+}
+
+vec4 playing(vec2 position) // GameStage.Playing
 {
     bool isLeftPaddle = isInRect(position, leftPaddlePosition, paddleSize);
     bool isRightPaddle = isInRect(position, rightPaddlePosition, paddleSize);
     bool isBall = isInRect(position, ballPosition, vec2(ballRadius * 2.0, ballRadius * 2.0));
-    bool isLine = abs(position.x) < 0.001;
 
     if (isLeftPaddle ||
     isRightPaddle ||
     isBall ||
-    isLine ||
-    isNumber(score.x, position, vec2(-0.1, 0.55)) ||
-    isNumber(score.y, position, vec2(0.1, 0.55)))
+    isLine(position) ||
+    isP1score(position) ||
+    isP2score(position))
     {
         return vec4(1, 1, 1, 1);
     }
@@ -276,8 +322,32 @@ vec4 colorAt(vec2 position)
     return vec4(0, 0, 0, 1.0);
 }
 
-vec4 welcome(vec2 position) {
-    if (isPONG(position, vec2(0, 0.3)) || isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0)))
+vec4 p1win(vec2 position) // GameStage.P1Win
+{
+    if (isP(position, vec2(-19.0 * pixelSize, 0)) ||
+        is1(position, vec2(-16.0 * pixelSize, 0)) ||
+        isExclamationMark(position, vec2(-14.0 * pixelSize, 0)) ||
+        isP1score(position) ||
+        isP2score(position) ||
+        isLine(position) ||
+        isPlayButton(position)
+    )
+    {
+        return vec4(1, 1, 1, 1);
+    }
+    return vec4(0, 0, 0, 1.0);
+}
+
+vec4 p2win(vec2 position) // GameStage.P2Win
+{
+    if (isP(position, vec2(14.0 * pixelSize, 0)) ||
+        is2(position, vec2(18.0 * pixelSize, 0)) ||
+        isExclamationMark(position, vec2(21.0 * pixelSize, 0)) ||
+        isP1score(position) ||
+        isP2score(position) ||
+        isLine(position) ||
+        isPlayButton(position)
+    )
     {
         return vec4(1, 1, 1, 1);
     }
@@ -285,9 +355,13 @@ vec4 welcome(vec2 position) {
 }
 
 void main() {
-    if (state == 0.0) {
+    if (gameStage == 0.0) { // GameStage.Welcome
         gl_FragColor = welcome(screenPosition);
-    } else {
-        gl_FragColor = colorAt(screenPosition);
+    } else if (gameStage == 1.0) { // GameStage.Playing
+        gl_FragColor = playing(screenPosition);
+    } else if (gameStage == 2.0) { // GameStage.P1Win
+        gl_FragColor = p1win(screenPosition);
+    } else if (gameStage == 3.0) { // GameStage.P2Win
+        gl_FragColor = p2win(screenPosition);
     }
 }

@@ -113,8 +113,8 @@ export default class PongRenderer {
     }
   }
 
-  setState (state) {
-    this.shader.setUniform1f('state', state)
+  setGameStage (gameStage) {
+    this.shader.setUniform1f('gameStage', gameStage)
   }
 
   setDefaultPositions () {
