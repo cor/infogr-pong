@@ -39,6 +39,7 @@ export class Pong {
 
   tick () {
     this.time++
+    this.renderer.setTime(this.time)
     if (this.stage === GameStage.Playing) {
       this.state = this.transition(this.state)
       this.syncState()
@@ -127,7 +128,6 @@ export class Pong {
   }
 
   syncState () {
-    this.renderer.setTime(this.time)
     this.renderer.setOldPositions(this.state.ball.oldPositions)
     this.renderer.setGameStage(this.stage)
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
