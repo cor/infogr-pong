@@ -269,7 +269,7 @@ vec4 colorAt(vec2 position)
 }
 
 vec4 welcome(vec2 position) {
-    if (isPONG(position, vec2(0, 0.3)) || isTriangle(position, vec2(0.16, 0.1), vec2(-0.07, 0)))
+    if (isPONG(position, vec2(0, 0.3)) || isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0)))
     {
         return vec4(1, 1, 1, 1);
     }

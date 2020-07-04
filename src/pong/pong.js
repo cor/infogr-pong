@@ -36,7 +36,6 @@ export class Pong {
   }
 
   tick () {
-    console.log(this.stage)
     if (this.stage === GameStage.Playing) {
       this.state.transition()
       this.state = this.transition(this.state)
@@ -142,9 +141,12 @@ export class Pong {
 
   addEventListeners () {
     this.canvas.addEventListener('mousedown', (e) => {
+      const hitboxSize = 50
       const click = getCursorPosition(this.canvas, e)
-      if (
-        (Math.abs(this.center.x - click.x) < 50 || Math.abs(this.center.y - click.y) < 50) && this.stage !== GameStage.Playing) {
+
+      if (Math.abs(this.center.x - click.x) < hitboxSize &&
+          Math.abs(this.center.y - click.y) < hitboxSize &&
+          this.stage !== GameStage.Playing) {
         this.state = new State()
         this.stage = GameStage.Playing
       }
