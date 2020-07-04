@@ -238,14 +238,6 @@ vec4 colorAt(vec2 position)
     bool isBall = isInRect(position, ballPosition, vec2(ballRadius * 2.0, ballRadius * 2.0));
     bool isLine = abs(position.x) < 0.001;
 
-    // if gamestate == start
-    if (isPONG(position, vec2(0, 0.2)))
-    {
-        return vec4(1, 1, 1, 1);
-    }
-    return vec4(0, 0, 0, 1.0);
-
-    // if gamestate == playing
     if (isLeftPaddle ||
     isRightPaddle ||
     isBall ||
@@ -259,7 +251,19 @@ vec4 colorAt(vec2 position)
     return vec4(0, 0, 0, 1.0);
 }
 
+vec4 pong(vec2 position) {
+    if (isPONG(position, vec2(0, 0.2)))
+    {
+        return vec4(1, 1, 1, 1);
+    }
+    return vec4(0, 0, 0, 1.0);
+}
+
 void main() {
-    // render depending on state here
-    gl_FragColor = colorAt(screenPosition);
+    if (state == 0.0) {
+        gl_FragColor = pong(screenPosition);
+    } else {
+        gl_FragColor = colorAt(screenPosition);
+    }
+
 }
