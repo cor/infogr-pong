@@ -19,7 +19,6 @@ export default class Ball {
     if (this.oldPositions.length > 30) {
       this.oldPositions.shift()
     }
-    console.log(this.oldPositions)
     this.x = x
     this.y = y
   }

@@ -37,7 +37,6 @@ export class Pong {
 
   tick () {
     if (this.stage === GameStage.Playing) {
-      this.state.transition()
       this.state = this.transition(this.state)
       this.syncState()
     } else {
@@ -47,6 +46,7 @@ export class Pong {
   }
 
   transition (state) {
+    this.stage = this.state.currentStage()
     this.updatePlayerState(state.P1)
     this.updatePlayerState(state.P2)
     this.updateBallState(state.ball)
@@ -78,8 +78,6 @@ export class Pong {
         const bounceAngle = normalizedDistanceToNormal * maxBounceAngle
 
         state.ball.speed *= state.ball.acceleration
-        console.log(state.ball.speed)
-
         state.ball.direction.x = state.ball.speed * Math.cos(bounceAngle)
         state.ball.direction.y = state.ball.speed * Math.sin(bounceAngle)
       } else {
@@ -220,7 +218,7 @@ class State {
     return this.P1.score > 9 || this.P2.score > 9
   }
 
-  transition () {
+  currentStage () {
     if (this.P1.score > 9) {
       return GameStage.P1Win
     } else if (this.P2.score > 9) {

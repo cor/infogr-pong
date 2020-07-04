@@ -347,8 +347,6 @@ vec4 p2win(vec2 position) // GameStage.P2Win
 }
 
 void main() {
-//    gl_FragColor = p1win(screenPosition);
-
     if (gameStage == 0.0) { // GameStage.Welcome
         gl_FragColor = welcome(screenPosition);
     } else if (gameStage == 1.0) { // GameStage.Playing
