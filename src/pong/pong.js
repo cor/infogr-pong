@@ -2,14 +2,14 @@ import Player from './player'
 import Movement from './movement'
 import Ball from './ball'
 
-const GameStage = {
+export const GameStage = {
   Welcome: 0.0,
   Playing: 1.0,
   P1Win: 2.0,
   P2Win: 3.0
 }
 
-export default class Pong {
+export class Pong {
   stage
   canvas
   center
@@ -17,8 +17,13 @@ export default class Pong {
   state
   maxY
 
-  constructor (renderer, canvas) {
-    this.stage = GameStage.Welcome
+  constructor (renderer, canvas, stage) {
+    if (typeof stage !== 'undefined') {
+      this.stage = stage
+    } else {
+      this.stage = GameStage.Playing
+    }
+
     this.canvas = canvas
     this.renderer = renderer
     this.maxY = 0.65
@@ -31,10 +36,9 @@ export default class Pong {
   }
 
   tick () {
+    console.log(this.stage)
     if (this.stage === GameStage.Playing) {
-      if (this.state.gameOver()) {
-        this.stage = this.state.stage()
-      }
+      this.state.transition()
       this.state = this.transition(this.state)
       this.syncState()
     } else {
@@ -125,6 +129,7 @@ export default class Pong {
   }
 
   syncState () {
+    this.renderer.setState(this.stage)
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
     this.renderer.setBallPosition(this.state.ball.x, this.state.ball.y)
@@ -214,7 +219,7 @@ class State {
     return this.P1.score > 9 || this.P2.score > 9
   }
 
-  stage () {
+  transition () {
     if (this.P1.score > 9) {
       return GameStage.P1Win
     } else if (this.P2.score > 9) {

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { Pong, PongRenderer } from '../pong'
+import { Pong, PongRenderer, GameStage } from '../pong'
 
 export default {
   name: 'Home',
@@ -26,7 +26,7 @@ export default {
     }
 
     this.pongRenderer = new PongRenderer(gl)
-    this.pong = new Pong(this.pongRenderer, canvas)
+    this.pong = new Pong(this.pongRenderer, canvas, GameStage.Welcome)
 
     this.pong.addEventListeners()
     const render = (now) => {

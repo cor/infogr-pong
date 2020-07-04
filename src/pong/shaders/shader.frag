@@ -265,5 +265,4 @@ void main() {
     } else {
         gl_FragColor = colorAt(screenPosition);
     }
-
 }
