@@ -107,6 +107,12 @@ export default class PongRenderer {
     }
   }
 
+  setOldPositions (oldPositions) {
+    for (const [i, pos] of oldPositions.entries()) {
+      this.shader.setUniform2fv(`oldPositions[${i}]`, pos)
+    }
+  }
+
   setState (state) {
     this.shader.setUniform1f('state', state)
   }

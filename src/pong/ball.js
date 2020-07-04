@@ -3,6 +3,7 @@ export default class Ball {
   x
   y
   direction
+  oldPositions = []
   speed
   acceleration
 
@@ -13,6 +14,16 @@ export default class Ball {
     { x: -0.01, y: -0.01 }
   ]
 
+  setLocation (x, y) {
+    this.oldPositions.push(new Float32Array([x, y]))
+    if (this.oldPositions.length > 30) {
+      this.oldPositions.shift()
+    }
+    console.log(this.oldPositions)
+    this.x = x
+    this.y = y
+  }
+
   constructor () {
     this.radius = 0.01
     this.x = 0
@@ -20,6 +31,10 @@ export default class Ball {
     this.direction = this.startDirections[Math.floor(Math.random() * this.startDirections.length)]
     this.speed = 0.01
     this.acceleration = 1.1
+
+    for (var i = 0; i < 30; i++) {
+      this.oldPositions[i] = new Float32Array([0, 0])
+    }
   }
 
   left () {

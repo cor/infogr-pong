@@ -7,6 +7,7 @@ uniform vec2 ballPosition;
 uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
 uniform float state;
+uniform vec2 oldPositions[30];
 
 float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.04, 0.24);
@@ -246,6 +247,13 @@ vec4 colorAt(vec2 position)
     isNumber(score.y, position, vec2(0.1, 0.55)))
     {
         return vec4(1, 1, 1, 1);
+    }
+
+    for (int i = 0; i < 30; i++) {
+        vec2 oldPos = oldPositions[i];
+        if (isInRect(position, oldPos, vec2(0.01, 0.01))) {
+            return vec4(1, 1, 1, 1);
+        }
     }
 
     return vec4(0, 0, 0, 1.0);

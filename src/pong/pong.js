@@ -109,9 +109,7 @@ export class Pong {
   }
 
   updateBallState (ball) {
-    ball.x += ball.direction.x
-    ball.y += ball.direction.y
-
+    ball.setLocation(ball.x + ball.direction.x, ball.y + ball.direction.y)
     if (Math.abs(ball.y) > this.maxY) {
       ball.direction.y *= -1
     }
@@ -129,6 +127,7 @@ export class Pong {
   }
 
   syncState () {
+    this.renderer.setOldPositions(this.state.ball.oldPositions)
     this.renderer.setState(this.stage)
     this.renderer.setLeftPaddlePosition(this.state.P1.x, this.state.P1.y)
     this.renderer.setRightPaddlePosition(this.state.P2.x, this.state.P2.y)
