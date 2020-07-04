@@ -290,6 +290,11 @@ bool isLine(vec2 position) {
         mod(position.y - pixelSize * 1.5, pixelSize * 2.0) <= pixelSize;
 }
 
+bool isWinLine(vec2 position) {
+    return isLine(position) &&
+        (position.y > pixelSize * 3.0 || position.y < pixelSize * -3.0);
+}
+
 bool isPlayButton(vec2 position) {
     return isTriangle(position, vec2(0.16, 0.1), vec2(-0.06, 0));
 }
@@ -341,7 +346,7 @@ vec4 p1win(vec2 position) // GameStage.P1Win
         isExclamationMark(position, vec2(-14.0 * pixelSize, 0)) ||
         isP1score(position) ||
         isP2score(position) ||
-        isLine(position) ||
+        isWinLine(position) ||
         isPlayButton(position)
     )
     {
@@ -357,7 +362,7 @@ vec4 p2win(vec2 position) // GameStage.P2Win
         isExclamationMark(position, vec2(21.0 * pixelSize, 0)) ||
         isP1score(position) ||
         isP2score(position) ||
-        isLine(position) ||
+        isWinLine(position) ||
         isPlayButton(position)
     )
     {

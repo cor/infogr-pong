@@ -2,6 +2,11 @@ import Player from './player'
 import Movement from './movement'
 import Ball from './ball'
 
+const ScoreAudio = new Audio(require('../assets/score.wav'))
+const PlopAudio = new Audio(require('../assets/hit.wav'))
+const StartAudio = new Audio(require('../assets/start.wav'))
+const SideAudio = new Audio(require('../assets/side.wav'))
+
 export const GameStage = {
   Welcome: 0.0,
   Playing: 1.0,
@@ -61,6 +66,10 @@ export class Pong {
       return state
     }
 
+    if (this.countdown === 0) {
+      StartAudio.play()
+    }
+
     this.updateBallState(state.ball)
 
     if (state.ball.x <= -1) {
@@ -68,6 +77,7 @@ export class Pong {
       newState.P1 = state.P1
       newState.P2 = state.P2
       newState.P2.score++
+      ScoreAudio.play()
       this.countdown = 60
       return newState
     } else if (state.ball.x >= 1) {
@@ -76,6 +86,7 @@ export class Pong {
       newState.P2 = state.P2
       newState.P1.score++
       this.countdown = 60
+      ScoreAudio.play()
       return newState
     }
 
@@ -89,13 +100,14 @@ export class Pong {
     if (state.ball.left() < state.P1.right()) {
       if ((state.ball.bottom() < state.P1.top() && state.ball.bottom > state.P1.bottom()) ||
         (state.ball.top() < state.P1.top() && state.ball.top() > state.P1.bottom())) {
+        PlopAudio.play()
         const distanceToNormal = state.P1.y - state.ball.y
         const normalizedDistanceToNormal = distanceToNormal / (state.P1.height / 2)
         const bounceAngle = normalizedDistanceToNormal * maxBounceAngle
 
         state.ball.speed *= state.ball.acceleration
         state.ball.direction.x = state.ball.speed * Math.cos(bounceAngle)
-        state.ball.direction.y = state.ball.speed * Math.sin(bounceAngle)
+        state.ball.direction.y = -state.ball.speed * Math.sin(bounceAngle)
       } else {
         state.terminating = true
       }
@@ -104,6 +116,7 @@ export class Pong {
     if (state.ball.right() > state.P2.left()) {
       if ((state.ball.bottom() < state.P2.top() && state.ball.bottom > state.P2.bottom()) ||
         (state.ball.top() < state.P2.top() && state.ball.top() > state.P2.bottom())) {
+        PlopAudio.play()
         const distanceToNormal = state.P2.y - state.ball.y
         const normalizedDistanceToNormal = distanceToNormal / (state.P2.height / 2)
         const bounceAngle = normalizedDistanceToNormal * maxBounceAngle
@@ -124,6 +137,7 @@ export class Pong {
   updateBallState (ball) {
     ball.setLocation(ball.x + ball.direction.x, ball.y + ball.direction.y)
     if (Math.abs(ball.y) > this.maxY) {
+      SideAudio.play()
       ball.direction.y *= -1
     }
   }
