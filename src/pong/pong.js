@@ -52,9 +52,6 @@ export class Pong {
       this.syncState()
     } else {
       this.renderer.setGameStage(this.stage)
-      if (this.stage === GameStage.Playing) {
-        StartAudio.play()
-      }
     }
     this.draw()
   }
@@ -67,6 +64,10 @@ export class Pong {
 
     if (this.countdown > 0) {
       return state
+    }
+
+    if (this.countdown === 0) {
+      StartAudio.play()
     }
 
     this.updateBallState(state.ball)
