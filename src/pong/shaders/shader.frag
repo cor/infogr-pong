@@ -11,6 +11,14 @@ uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
 uniform float gameStage;
 uniform vec2 oldPositions[30];
+uniform float time;
+
+//
+// CURVE
+//
+vec2 curveAmount = vec2(0.8, 0.6);
+float caseBorder = 0.0125;
+
 
 float ballRadius = 0.02;
 vec2 paddleSize = vec2(0.04, 0.24);
@@ -269,15 +277,17 @@ bool isNumber(float number, vec2 position, vec2 numberPosition)
 }
 
 bool isP1score(vec2 position) {
-    return isNumber(score.x, position, vec2(-0.1, 0.55));
+    return isNumber(score.x, position, vec2(-4.0 * pixelSize, 18.0 * pixelSize));
 }
 
 bool isP2score(vec2 position) {
-    return isNumber(score.y, position, vec2(0.1, 0.55));
+    return isNumber(score.y, position, vec2(4.0 * pixelSize, 18.0 * pixelSize));
 }
 
 bool isLine(vec2 position) {
-    return abs(position.x) < 0.001;
+    return
+        abs(position.x) < pixelSize / 2.0 &&
+        mod(position.y - pixelSize * 1.5, pixelSize * 2.0) <= pixelSize;
 }
 
 bool isPlayButton(vec2 position) {
@@ -356,14 +366,76 @@ vec4 p2win(vec2 position) // GameStage.P2Win
     return vec4(0, 0, 0, 1.0);
 }
 
-void main() {
-    if (gameStage == 0.0) { // GameStage.Welcome
-        gl_FragColor = welcome(screenPosition);
-    } else if (gameStage == 1.0) { // GameStage.Playing
-        gl_FragColor = playing(screenPosition);
-    } else if (gameStage == 2.0) { // GameStage.P1Win
-        gl_FragColor = p1win(screenPosition);
-    } else if (gameStage == 3.0) { // GameStage.P2Win
-        gl_FragColor = p2win(screenPosition);
+vec4 scanline(vec4 color, vec2 position) {
+    float lineHeight = 0.0104;
+    float darkness = 0.9;
+    float speed = 0.0104;
+
+    float y = mod(position.y + (time / 60.0) * speed, lineHeight);
+    if (y < lineHeight/2.0) {
+        return color;
+    } else {
+        return vec4(color.x, color.y, color.z, darkness);
     }
+}
+
+vec4 colorAt(vec2 position) {
+    // Map position from [0, 1] to [-1, 1] to get world space color
+    position *= 2.0;
+    position -= vec2(1.0);
+
+    vec4 color;
+
+    if (abs(position.y) > 0.666) { // out of render area
+        return vec4(0, 0, 0, 1);
+    }
+
+    if (gameStage == 0.0) { // GameStage.Welcome
+        color = welcome(position);
+    } else if (gameStage == 1.0) { // GameStage.Playing
+        color = playing(position);
+    } else if (gameStage == 2.0) { // GameStage.P1Win
+        color = p1win(position);
+    } else if (gameStage == 3.0) { // GameStage.P2Win
+        color = p2win(position);
+    }
+
+    // Apply scanline effect
+    color = scanline(color, position);
+
+    return color;
+}
+
+
+vec4 curve(vec2 position) {
+    // Map position from [-1, 1] to [0, 1] for curve effect
+    position += vec2(1.0);
+    position /= 2.0;
+
+    // Using this https://github.com/wessles/GLSL-CRT/blob/master/shader.frag algorithm
+    float dx = abs(0.5 - position.x);
+    float dy = abs(0.5 - position.y);
+    dx *= dx;
+    dy *= dy;
+
+    position.x -= 0.5;
+    position.x *= 1.0 + (dy * curveAmount.x);
+    position.x += 0.5;
+
+    position.y -= 0.5;
+    position.y *= 1.0 + (dx * curveAmount.y);
+    position.y += 0.5;
+
+    // Draw color from world space
+    vec4 color = colorAt(position);
+    color += sin(position.y) * 0.02;
+
+    if(position.y > 1.0 || position.x < 0.0 || position.x > 1.0 || position.y < 0.0)
+        color = vec4(0, 0, 0, 1);
+
+    return color;
+}
+
+void main() {
+    gl_FragColor = curve(screenPosition);
 }
