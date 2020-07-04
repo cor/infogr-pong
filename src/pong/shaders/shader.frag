@@ -216,6 +216,23 @@ bool isPONG(vec2 position, vec2 pos)
     isG(position, vec2(pos.x + 6.0 * pixelSize, pos.y));
 }
 
+
+bool isTriangle(vec2 position, vec2 size, vec2 pos)
+{
+    float top = pos.y + size.y;
+    float bottom = pos.y - size.y;
+    float start = pos.x;
+    float end = pos.x + size.x;
+
+    float slope = size.y/size.x;
+    float relativeX = position.x - start;
+
+    return
+    position.x > start && position.x < end && // x within triangle
+    (position.y < top - slope * relativeX && position.y > bottom + slope * relativeX); // y within triangle
+
+}
+
 bool isNumber(float number, vec2 position, vec2 numberPosition)
 {   // GLSL is a beautiful language
     if (number == 0.0) { return is0(position, numberPosition); }
@@ -251,8 +268,8 @@ vec4 colorAt(vec2 position)
     return vec4(0, 0, 0, 1.0);
 }
 
-vec4 pong(vec2 position) {
-    if (isPONG(position, vec2(0, 0.2)))
+vec4 welcome(vec2 position) {
+    if (isPONG(position, vec2(0, 0.3)) || isTriangle(position, vec2(0.16, 0.1), vec2(-0.07, 0)))
     {
         return vec4(1, 1, 1, 1);
     }
@@ -261,7 +278,7 @@ vec4 pong(vec2 position) {
 
 void main() {
     if (state == 0.0) {
-        gl_FragColor = pong(screenPosition);
+        gl_FragColor = welcome(screenPosition);
     } else {
         gl_FragColor = colorAt(screenPosition);
     }
