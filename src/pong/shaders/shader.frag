@@ -6,7 +6,7 @@ uniform vec2 score;
 uniform vec2 ballPosition;
 uniform vec2 leftPaddlePosition;
 uniform vec2 rightPaddlePosition;
-uniform float state;
+uniform float gameStage;
 uniform vec2 oldPositions[30];
 
 float ballRadius = 0.02;
@@ -285,7 +285,7 @@ vec4 welcome(vec2 position) {
 }
 
 void main() {
-    if (state == 0.0) {
+    if (gameStage == 0.0) {
         gl_FragColor = welcome(screenPosition);
     } else {
         gl_FragColor = colorAt(screenPosition);
